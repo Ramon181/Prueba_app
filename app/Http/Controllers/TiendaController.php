@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tienda;
 use Illuminate\Http\Request;
 
 class TiendaController extends Controller
@@ -14,7 +15,8 @@ class TiendaController extends Controller
     public function index()
     {
         //
-        return view("Tienda.index");
+        $datos["tienda"] = Tienda::paginate(5);
+        return view("Tienda.index",$datos);
     }
 
     /**
@@ -37,6 +39,9 @@ class TiendaController extends Controller
     public function store(Request $request)
     {
         //
+        $datosTienda = request()->except("_token");
+        Tienda::insert($datosTienda);
+        return response()->json($datosTienda);
     }
 
     /**
